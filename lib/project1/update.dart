@@ -54,6 +54,7 @@ class _UpdateUserState extends State<UpdateUser> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 11, 52, 48),
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 11, 52, 48),
         centerTitle: true,
         title: const Text(
           'Update Blood Donors',
@@ -162,7 +163,8 @@ class _UpdateUserState extends State<UpdateUser> {
                 child: ElevatedButton(
                   onPressed: () {
                     updateDonor(docId);
-                    Get.snackbar('Success', 'Data updated successfully');
+                    Get.snackbar('Success', 'Data updated successfully',
+                        snackPosition: SnackPosition.BOTTOM);
                   },
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(

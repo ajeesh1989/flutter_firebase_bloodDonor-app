@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 
 class AddUser extends StatefulWidget {
@@ -28,6 +26,7 @@ class _AddUserState extends State<AddUser> {
 
   TextEditingController donorName = TextEditingController();
   TextEditingController donorphone = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   //add function
   void addDonor() {
@@ -44,6 +43,7 @@ class _AddUserState extends State<AddUser> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 11, 52, 48),
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 11, 52, 48),
         centerTitle: true,
         title: const Text(
           'Add Blood Donors',
@@ -53,124 +53,153 @@ class _AddUserState extends State<AddUser> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(15.0),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              Image.asset(
-                'lib/images/blood.png',
-                color: Colors.teal.shade600,
-                scale: 12,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  maxLength: 10,
-                  controller: donorName,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Image.asset(
+                  'lib/images/blood.png',
+                  color: Colors.teal.shade600,
+                  scale: 12,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your name';
+                      } else {
+                        return null;
+                      }
+                    },
+                    maxLength: 10,
+                    controller: donorName,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                      label: Text(
+                        "Donor's name",
+                        style: TextStyle(color: Colors.white60),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 2, color: Colors.white24),
                       ),
                     ),
-                    label: Text(
-                      "Donor's name",
-                      style: TextStyle(color: Colors.white60),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 2, color: Colors.white24),
-                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: donorphone,
-                  keyboardType: TextInputType.phone,
-                  maxLength: 10,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your phone number';
+                      } else {
+                        return null;
+                      }
+                    },
+                    controller: donorphone,
+                    keyboardType: TextInputType.phone,
+                    maxLength: 10,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                      label: Text(
+                        "Phone number",
+                        style: TextStyle(color: Colors.white60),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 2, color: Colors.white24),
                       ),
                     ),
-                    label: Text(
-                      "Phone number",
-                      style: TextStyle(color: Colors.white60),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 2, color: Colors.white24),
-                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: DropdownButtonFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DropdownButtonFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your blood group';
+                      } else {
+                        return null;
+                      }
+                    },
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                      label: Text(
+                        'Select Blood Group',
+                        style: TextStyle(color: Colors.white60),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 2, color: Colors.white24),
                       ),
                     ),
-                    label: Text(
-                      'Select Blood Group',
-                      style: TextStyle(color: Colors.white60),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 2, color: Colors.white24),
-                    ),
-                  ),
-                  items: bloodGroups
-                      .map((e) => DropdownMenuItem(
-                            value: e,
-                            child: Text(e),
-                          ))
-                      .toList(),
-                  onChanged: (val) {
-                    selectedGroup = val;
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              //
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    addDonor();
-                    Get.snackbar('Success', 'Data added successfully');
-                  },
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
-                    minimumSize: MaterialStateProperty.all(
-                      const Size(double.infinity, 50),
-                    ),
-                    backgroundColor:
-                        const MaterialStatePropertyAll(Colors.white30),
-                  ),
-                  child: const Text(
-                    'S U B M I T',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w200),
+                    items: bloodGroups
+                        .map((e) => DropdownMenuItem(
+                              value: e,
+                              child: Text(e),
+                            ))
+                        .toList(),
+                    onChanged: (val) {
+                      selectedGroup = val;
+                    },
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(
+                  height: 40,
+                ),
+                //
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        addDonor();
+                        Get.snackbar('Success', 'Data added successfully',
+                            snackPosition: SnackPosition.BOTTOM);
+
+                        Navigator.pop(context);
+                      }
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                      minimumSize: MaterialStateProperty.all(
+                        const Size(double.infinity, 50),
+                      ),
+                      backgroundColor:
+                          const MaterialStatePropertyAll(Colors.white30),
+                    ),
+                    child: const Text(
+                      'S U B M I T',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w200),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

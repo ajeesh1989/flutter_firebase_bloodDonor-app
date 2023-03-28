@@ -38,6 +38,10 @@ dependencies:
   firebase_core: ^2.8.0
   cloud_firestore: ^4.4.5
   get: ^4.6.5
+  pinput: ^2.2.31
+  google_fonts: ^4.0.3
+  flutter_otp_text_field: 1.1.1
+  firebase_auth: ^4.3.0
 
 dev_dependencies:
   flutter_test:
