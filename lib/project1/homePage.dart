@@ -28,13 +28,16 @@ class _HomePageState extends State<HomePage> {
         leading: IconButton(
             onPressed: () {
               Get.defaultDialog(
-                title: 'LogOut',
-                middleText: 'are you sure???',
-                textConfirm: 'yes',
-                textCancel: 'no',
-              );
-              FirebaseAuth.instance.signOut();
-              Get.to(const SignIn());
+                  title: 'LogOut',
+                  middleText: 'Are you sure???',
+                  textConfirm: 'Yes',
+                  textCancel: 'No',
+                  onConfirm: () {
+                    FirebaseAuth.instance.signOut();
+                    Get.snackbar('Success', 'You have logged out successfully',
+                        snackPosition: SnackPosition.BOTTOM);
+                    Navigator.pushNamed(context, '/');
+                  });
             },
             icon: const Icon(Icons.logout)),
         elevation: 5,
